@@ -17,11 +17,15 @@ const Keyboard = ({ setWords }: Props): JSX.Element => {
     const { buttons } = config;
 
     const sendRequest = async (numbers: string): Promise<void> => {
-        const response = await fetch(URL + '?' + new URLSearchParams({ numbers: numbers }).toString());
-        const { data } = await response.json();
-
-        setWords(data);
-    }
+        try {
+            const response = await fetch(URL + '?' + new URLSearchParams({ numbers: numbers }).toString());
+            const { data } = await response.json();
+    
+            setWords(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const convert = async (number: string): Promise<void> => {
         if (numbers.length >= MAX_LENGTH) return;
@@ -37,7 +41,6 @@ const Keyboard = ({ setWords }: Props): JSX.Element => {
 
     const removeNumber = async (): Promise<void> => {
         const newNumbersSet = numbers.slice(0, -1);
-        console.log('newNumbersSet', newNumbersSet)
 
         setNumbers(newNumbersSet);
 
