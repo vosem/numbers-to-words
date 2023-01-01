@@ -10,6 +10,7 @@ type Props = {
 };
 
 const URL = 'http://localhost:9000/convert';
+const MAX_LENGTH = 7;
 
 const Keyboard = ({ setWords }: Props): JSX.Element => {
     const [numbers, setNumbers] = useState<string>('');
@@ -23,6 +24,8 @@ const Keyboard = ({ setWords }: Props): JSX.Element => {
     }
 
     const convert = async (number: string): Promise<void> => {
+        if (numbers.length >= MAX_LENGTH) return;
+
         const newNumbersSet = numbers.concat(number);
 
         setNumbers(newNumbersSet);
@@ -38,7 +41,7 @@ const Keyboard = ({ setWords }: Props): JSX.Element => {
 
         setNumbers(newNumbersSet);
 
-        if (newNumbersSet.length) {
+        if (numbers.length || newNumbersSet.length) {
             await sendRequest(newNumbersSet);
         }
     };
@@ -49,7 +52,7 @@ const Keyboard = ({ setWords }: Props): JSX.Element => {
                 type="text"
                 className={styles.Input}
                 name="ask-question"
-                maxLength={15}
+                maxLength={10}
                 value={numbers}
                 disabled={true}
             />
