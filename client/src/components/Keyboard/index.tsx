@@ -20,7 +20,7 @@ const Keyboard = ({ setWords }: Props): JSX.Element => {
         try {
             const response = await fetch(URL + '?' + new URLSearchParams({ numbers: numbers }).toString());
             const { data } = await response.json();
-    
+
             setWords(data);
         } catch (error) {
             console.log(error);
